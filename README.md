@@ -3,6 +3,18 @@
 Free, easy remote access for Home Assistant — no port forwarding, no router
 changes. A Home Assistant **add-on repository** containing two add-ons:
 
+> ## 💰 A free alternative to Nabu Casa
+>
+> Home Assistant Cloud (Nabu Casa) is the official remote-access service, but it
+> costs **~$6.50/month (~$65/year)**. If a client **doesn't want a monthly
+> subscription**, this repo is the answer — the same "reach my home from
+> anywhere" capability, for **free**.
+>
+> **Bonus:** a client who skips Nabu Casa also gets the *simplest* setup. The only
+> reason **Remote URL** ever needs a `configuration.yaml` tweak is that Nabu Casa
+> enables proxy handling behind the scenes. No Nabu Casa → **Remote URL is
+> zero-config too**: install → start → done.
+
 | Add-on | Use it for | Tech | Cost |
 |--------|-----------|------|------|
 | **Remote URL** | The homeowner opening *their own* HA from a phone anywhere, via a public `https://` link | [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Free |
