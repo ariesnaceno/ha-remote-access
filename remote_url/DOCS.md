@@ -49,8 +49,11 @@ free domain provider you point at Cloudflare) is all that's required.
 
 ## Important: tell Home Assistant to trust the tunnel
 
-Because traffic arrives via a proxy, add this to your `configuration.yaml` once,
-then restart Home Assistant:
+`cloudflared` always adds an `X-Forwarded-For` header. Home Assistant will reject
+those requests with **"400: Bad Request"** unless it is told to trust the add-on
+network. Edit `configuration.yaml` and **restart Home Assistant**.
+
+**If you do NOT already have an `http:` section**, add this whole block:
 
 ```yaml
 http:
@@ -59,7 +62,25 @@ http:
     - 172.30.32.0/23   # Home Assistant add-on network
 ```
 
-Without this, HA will reject the proxied requests with a "400: Bad Request".
+**If you ALREADY have an `http:` section** (common if you've used a reverse proxy,
+NGINX, or another tunnel before) — do **not** add a second `http:` key. Instead
+make sure `use_x_forwarded_for: true` is present and just **add the one line** to
+your existing `trusted_proxies` list:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.32.0/23   # <-- add this line; keep any IPs already listed
+    # - 192.168.1.0/24   (example of something you may already have)
+```
+
+### How to tell if this is your problem
+
+Symptom: the add-on log shows the tunnel connected and prints a URL, but opening
+that URL returns a blank **"400: Bad Request"** page. That means HA already has
+`use_x_forwarded_for` enabled and the `172.30.32.0/23` line is missing. Add it,
+restart HA, reload the URL.
 
 ## Security note
 
