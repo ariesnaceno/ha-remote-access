@@ -57,6 +57,13 @@ If you deploy to lots of sites, an auth key skips the click-the-link step:
 - Free Tailscale plan covers up to 100 devices / 3 users, which is plenty for an
   installer managing many client sites from a couple of personal devices.
 
+## Keep it alive (Watchdog)
+
+`tailscaled` runs as the add-on's main process, so if it ever crashes the add-on
+stops. Turn on the **Watchdog** toggle on the add-on's **Info** page and Home
+Assistant will restart it automatically — recommended for unattended client
+sites so the mesh self-heals.
+
 ## Harmless log warning (ignore it)
 
 On Home Assistant OS you will see this line in the log when the add-on starts:

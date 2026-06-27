@@ -94,6 +94,14 @@ its own servers to the trusted list automatically.)
 > **Private Mesh (Tailscale)** add-on from this same repository instead — it never
 > touches `configuration.yaml`.
 
+## Keep it alive (Watchdog)
+
+This add-on exposes `cloudflared`'s health endpoint internally so the Supervisor
+can tell if the tunnel has died or hung. Turn on the **Watchdog** toggle on the
+add-on's **Info** page — if the tunnel stops responding, Home Assistant restarts
+the add-on automatically. Recommended for unattended client sites so remote
+access self-heals.
+
 ## Security note
 
 A public URL means your login page is reachable from the internet. Use a strong

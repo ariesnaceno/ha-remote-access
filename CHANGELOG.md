@@ -1,5 +1,15 @@
 # Changelog
 
+## Reliability + CI
+
+- **Remote URL → 1.1.0:** added a **Watchdog** health-check. `cloudflared` now
+  exposes its metrics endpoint (`0.0.0.0:36500`, internal only) and the add-on
+  declares `watchdog: tcp://[HOST]:[PORT:36500]`, so the Supervisor auto-restarts
+  the add-on if the tunnel dies or hangs (enable the Watchdog toggle).
+- **Private Mesh:** documented the Watchdog toggle for crash auto-restart.
+- **CI:** added a GitHub Actions workflow that runs the official Home Assistant
+  add-on linter on both add-ons for every push/PR.
+
 ## Docs — verified on real hardware (HAOS on Raspberry Pi)
 
 - Both add-ons tested end-to-end on a live HA: install → start → remote access works.
