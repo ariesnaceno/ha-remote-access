@@ -47,13 +47,27 @@ free domain provider you point at Cloudflare) is all that's required.
 | `ha_host` | `homeassistant` | Internal hostname of HA core (leave as-is) |
 | `ha_port` | `8123` | HA frontend port (leave as-is unless you changed it) |
 
-## Important: tell Home Assistant to trust the tunnel
+## Troubleshooting — ONLY if you get a "400: Bad Request"
 
-`cloudflared` always adds an `X-Forwarded-For` header. Home Assistant will reject
-those requests with **"400: Bad Request"** unless it is told to trust the add-on
-network. Edit `configuration.yaml` and **restart Home Assistant**.
+**Most Home Assistants need nothing here — install, start, done.** Skip this whole
+section unless the public URL shows a blank **"400: Bad Request"** page.
 
-**If you do NOT already have an `http:` section**, add this whole block:
+You'll only hit the 400 if your HA **already trusts forwarded headers**, which
+happens in two cases:
+
+- 🟢 **You use Home Assistant Cloud (Nabu Casa).** Nabu Casa silently turns on
+  `X-Forwarded-For` handling at runtime and only trusts its own servers — so it
+  rejects this add-on's tunnel until you add the add-on network below. (This is
+  the most common cause, and there is **nothing about it in your
+  `configuration.yaml`** — that's why it's confusing.)
+- 🟢 **You already run a reverse proxy** (NGINX, Traefik, another tunnel, etc.)
+  and have `use_x_forwarded_for: true` set.
+
+### The fix (one time, ~30 seconds)
+
+Edit `configuration.yaml`, then **restart Home Assistant**.
+
+**If you have NO `http:` section yet**, add this whole block:
 
 ```yaml
 http:
@@ -62,10 +76,8 @@ http:
     - 172.30.32.0/23   # Home Assistant add-on network
 ```
 
-**If you ALREADY have an `http:` section** (common if you've used a reverse proxy,
-NGINX, or another tunnel before) — do **not** add a second `http:` key. Instead
-make sure `use_x_forwarded_for: true` is present and just **add the one line** to
-your existing `trusted_proxies` list:
+**If you ALREADY have an `http:` section**, do **not** add a second `http:` key —
+just add the one line to your existing `trusted_proxies` list:
 
 ```yaml
 http:
@@ -75,12 +87,12 @@ http:
     # - 192.168.1.0/24   (example of something you may already have)
 ```
 
-### How to tell if this is your problem
+Reload the URL — it now serves Home Assistant. (Nabu Casa keeps working; it adds
+its own servers to the trusted list automatically.)
 
-Symptom: the add-on log shows the tunnel connected and prints a URL, but opening
-that URL returns a blank **"400: Bad Request"** page. That means HA already has
-`use_x_forwarded_for` enabled and the `172.30.32.0/23` line is missing. Add it,
-restart HA, reload the URL.
+> 💡 **Want truly zero-config remote access with no chance of a 400?** Use the
+> **Private Mesh (Tailscale)** add-on from this same repository instead — it never
+> touches `configuration.yaml`.
 
 ## Security note
 

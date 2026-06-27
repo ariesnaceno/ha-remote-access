@@ -10,6 +10,12 @@ changes. A Home Assistant **add-on repository** containing two add-ons:
 
 Pick one or run both — they're independent.
 
+**The whole point is no complicated setup:** add this repository once, then for
+remote access you just **install the add-on → start it → it's ready**. No port
+forwarding, no router config. (The only possible extra step is one line of
+`configuration.yaml` for **Remote URL**, and *only* if the HA already runs Nabu
+Casa or a reverse proxy — see its docs. **Private Mesh never needs any config.**)
+
 ## Install
 
 1. In Home Assistant, go to **Settings → Add-ons → Add-on Store**.

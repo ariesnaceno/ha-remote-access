@@ -12,23 +12,33 @@ Tailscale app on your laptop/phone, run this add-on at the client site, and HA
 appears as just another machine on your private network — no port forwarding,
 works behind CGNAT.
 
-## Setup (recommended: auth key)
+## Easiest setup — zero config (recommended)
 
-1. Create a free account at [tailscale.com](https://tailscale.com/) and install
-   the Tailscale app on **your** laptop/phone.
-2. In the [admin console](https://login.tailscale.com/admin/settings/keys),
-   **Generate auth key**. Tick **Reusable** if you'll deploy to many sites, and
-   optionally **Ephemeral**. Copy the key (starts with `tskey-...`).
-3. In this add-on's **Configuration**, paste the key into `auth_key`, set a
-   recognisable `hostname` (e.g. `client-smith-ha`), and **Start** the add-on.
-4. The HA node now shows up in your Tailscale admin console. Reach it from your
-   laptop at `http://<that-hostname>:8123` or via its Tailscale IP (`100.x.y.z`).
+No config files, no keys to copy. Just:
 
-## Setup without a key (interactive)
+1. **Install** this add-on and **Start** it.
+2. Open the **Log** tab — it prints a link like `https://login.tailscale.com/a/xxxx`.
+3. Open that link, **sign in** (or sign up free with Google/GitHub — no card), and
+   approve the machine. It joins your network as **`homeassistant`**.
+4. Install the Tailscale app on your phone/laptop, sign in with the **same
+   account**, and open `http://homeassistant:8123` (or its `100.x.y.z` IP).
 
-Leave `auth_key` empty and **Start** the add-on. Open the **Log** tab — it prints
-a `https://login.tailscale.com/...` URL. Open it once, sign in, and the node is
-linked. Good for one-off installs; the auth-key method is better for fleets.
+Done — private remote access, nothing touched in `configuration.yaml`.
+
+> ✅ **Do this once per install:** in the
+> [Tailscale admin console](https://login.tailscale.com/admin/machines) → click the
+> machine → **Disable key expiry**. Otherwise Tailscale logs the node out after
+> ~180 days and a client site silently drops off the network.
+
+## Fleet setup — auth key (for many client sites)
+
+If you deploy to lots of sites, an auth key skips the click-the-link step:
+
+1. In the [admin console](https://login.tailscale.com/admin/settings/keys),
+   **Generate auth key** (tick **Reusable**). Copy it (`tskey-...`).
+2. In this add-on's **Configuration**, paste it into `auth_key`, set a
+   recognisable `hostname` (e.g. `client-smith-ha`), and **Start**.
+3. The node auto-joins — no link to click.
 
 ## Options
 
@@ -46,3 +56,19 @@ linked. Good for one-off installs; the auth-key method is better for fleets.
   declared in the add-on config — approve them on first start.
 - Free Tailscale plan covers up to 100 devices / 3 users, which is plenty for an
   installer managing many client sites from a couple of personal devices.
+
+## Harmless log warning (ignore it)
+
+On Home Assistant OS you will see this line in the log when the add-on starts:
+
+```
+router: warning: failed to enable src_valid_mark: sysctl(...src_valid_mark=1):
+  open /proc/sys/net/ipv4/conf/all/src_valid_mark: read-only file system
+```
+
+This is **expected and harmless** — HAOS mounts that sysctl read-only. It only
+affects advanced subnet-routing / exit-node features (which this add-on doesn't
+use by default). Normal remote access to Home Assistant works fine. If the log
+ends with `Switching ipn state Starting -> Running` and
+`Tailscale is running. Reach Home Assistant at http://homeassistant:8123`, you're
+connected.
