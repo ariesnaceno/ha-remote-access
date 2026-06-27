@@ -4,6 +4,10 @@ FROM ${BUILD_FROM}
 # Home Assistant passes the target architecture in BUILD_ARCH.
 ARG BUILD_ARCH
 
+# Pin cloudflared to a known-good release for reproducible builds.
+# To upgrade: bump this to any tag from https://github.com/cloudflare/cloudflared/releases
+ARG CLOUDFLARED_VERSION=2026.6.1
+
 RUN apk add --no-cache curl ca-certificates
 
 # Map the HA build arch to the matching cloudflared release binary and install it.
@@ -16,7 +20,7 @@ RUN case "${BUILD_ARCH}" in \
       *) echo "Unsupported arch: ${BUILD_ARCH}" && exit 1 ;; \
     esac && \
     curl -fsSL -o /usr/bin/cloudflared \
-      "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-${CF_ARCH}" && \
+      "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-${CF_ARCH}" && \
     chmod +x /usr/bin/cloudflared
 
 COPY run.sh /run.sh

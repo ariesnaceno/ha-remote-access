@@ -1,5 +1,16 @@
 # Changelog
 
+## Polish — icons, friendlier config, URL notification
+
+- **Icons & logos** for both add-ons (no more generic puzzle-piece in the store).
+- **Friendly config labels** via `translations/en.yaml` — the Configuration tab now
+  shows readable names + help text instead of raw option keys.
+- **Remote URL → 1.2.0:** posts the current public URL as a **Home Assistant
+  notification** on start (quick mode), so you never have to dig through the Log.
+- **`cloudflared` pinned** to a fixed release (`2026.6.1`) for reproducible builds
+  (bump the `CLOUDFLARED_VERSION` build arg to upgrade).
+- **README:** added a one-click "My Home Assistant" badge to add the repository.
+
 ## Reliability + CI
 
 - **Remote URL → 1.1.0:** added a **Watchdog** health-check. `cloudflared` now

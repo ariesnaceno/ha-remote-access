@@ -30,6 +30,13 @@ Casa or a reverse proxy — see its docs. **Private Mesh never needs any config.
 
 ## Install
 
+**One-click (easiest):** click the badge to open your Home Assistant and add this
+repository automatically:
+
+[![Open your Home Assistant instance and add this add-on repository.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fariesnaceno%2Fha-remote-access)
+
+**Or manually:**
+
 1. In Home Assistant, go to **Settings → Add-ons → Add-on Store**.
 2. Top-right **⋮ → Repositories**, and add:
 

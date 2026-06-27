@@ -1,0 +1,20 @@
+configuration:
+  mode:
+    name: Mode
+    description: >-
+      "quick" = free random https://…trycloudflare.com URL with zero setup (great
+      for testing; the URL changes on each restart). "named" = permanent custom
+      domain using a Cloudflare tunnel token.
+  tunnel_token:
+    name: Cloudflare tunnel token
+    description: >-
+      Only needed for "named" mode. Paste the token from Cloudflare Zero Trust →
+      Networks → Tunnels. Leave empty for "quick" mode.
+  ha_host:
+    name: Home Assistant host
+    description: Internal hostname of Home Assistant. Leave as "homeassistant".
+  ha_port:
+    name: Home Assistant port
+    description: Home Assistant's port. Leave as 8123 unless you changed it.
+network:
+  36500/tcp: Internal cloudflared metrics port (used only by the Watchdog health-check)

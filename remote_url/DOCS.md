@@ -7,12 +7,11 @@ no change to the client's router, so it works even behind CGNAT / mobile data.
 ## Quick start (free, zero config)
 
 1. Install this add-on and **Start** it.
-2. Open the **Log** tab. Within a few seconds you'll see a line like:
-
-   ```
-   https://random-words-here.trycloudflare.com
-   ```
-
+2. Within a few seconds, the public URL appears in **two** places:
+   - As a **Home Assistant notification** (bell icon / Settings → Notifications) —
+     no need to dig through logs.
+   - In the add-on's **Log** tab, as a line like
+     `https://random-words-here.trycloudflare.com`.
 3. Open that URL on any phone or laptop — it's your Home Assistant, from anywhere.
 
 That's it. Nothing to sign up for. This uses Cloudflare's **quick tunnel**, which

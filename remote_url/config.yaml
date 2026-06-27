@@ -1,10 +1,13 @@
 name: "Remote URL (Cloudflare Tunnel)"
 description: "Gives Home Assistant a secure public https:// link via Cloudflare Tunnel — no port forwarding, no router changes."
-version: "1.1.0"
+version: "1.2.0"
 slug: "remote_url"
 init: false
 startup: "services"
 boot: "auto"
+# Lets the add-on post the current public URL as a Home Assistant notification
+# (quick mode), so you never have to dig through the Log tab to find it.
+homeassistant_api: true
 # Watchdog: the Supervisor health-checks cloudflared's metrics endpoint; if the
 # tunnel dies or hangs, the add-on is restarted automatically (enable the
 # "Watchdog" toggle on the add-on's Info page).

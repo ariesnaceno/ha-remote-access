@@ -1,0 +1,22 @@
+configuration:
+  auth_key:
+    name: Tailscale auth key
+    description: >-
+      Optional. Paste a key (tskey-…) from the Tailscale admin console to join
+      automatically. Leave empty to get a one-time login link in the Log tab
+      instead (easiest for a single install).
+  hostname:
+    name: Device name
+    description: >-
+      The name this Home Assistant shows up as in your Tailscale network
+      (e.g. "client-smith-ha"). Defaults to "homeassistant".
+  accept_routes:
+    name: Accept subnet routes
+    description: >-
+      Advanced. Accept subnet routes advertised by other devices on your
+      tailnet. Leave off for normal remote access.
+  advertise_exit_node:
+    name: Advertise as exit node
+    description: >-
+      Advanced. Offer this device as a Tailscale exit node (route other devices'
+      internet traffic through it). Leave off for normal remote access.
