@@ -26,4 +26,9 @@ RUN case "${BUILD_ARCH}" in \
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
+# Health probe for the Supervisor Watchdog: cloudflared's metrics server exposes
+# /ready, which returns 200 once the tunnel has an active connection.
+HEALTHCHECK --start-period=30s --interval=30s --timeout=10s --retries=3 \
+  CMD curl -fsS http://127.0.0.1:36500/ready >/dev/null 2>&1 || exit 1
+
 CMD [ "/run.sh" ]

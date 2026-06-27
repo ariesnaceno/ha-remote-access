@@ -16,13 +16,13 @@
 
 ## Reliability + CI
 
-- **Remote URL → 1.1.0:** added a **Watchdog** health-check. `cloudflared` now
-  exposes its metrics endpoint (`0.0.0.0:36500`, internal only) and the add-on
-  declares `watchdog: tcp://[HOST]:[PORT:36500]`, so the Supervisor auto-restarts
-  the add-on if the tunnel dies or hangs (enable the Watchdog toggle).
-- **Private Mesh:** documented the Watchdog toggle for crash auto-restart.
+- **Remote URL → 1.2.1:** Watchdog health-check now via a Docker `HEALTHCHECK`
+  (the linter-recommended approach) that probes cloudflared's `/ready` endpoint —
+  enable the Watchdog toggle and the Supervisor auto-restarts the add-on if the
+  tunnel goes unhealthy. Also dropped the redundant `boot: auto` (it's the default).
+- **Private Mesh → 1.0.1:** dropped the redundant `boot: auto`.
 - **CI:** added a GitHub Actions workflow that runs the official Home Assistant
-  add-on linter on both add-ons for every push/PR.
+  add-on linter on both add-ons for every push/PR (now passing).
 
 ## Docs — verified on real hardware (HAOS on Raspberry Pi)
 
