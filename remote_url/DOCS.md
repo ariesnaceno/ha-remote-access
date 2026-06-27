@@ -37,6 +37,21 @@ Use this when the client wants a stable address like `https://home.theirdomain.c
 A free Cloudflare account + a domain on Cloudflare (≈ a few dollars/year, or a
 free domain provider you point at Cloudflare) is all that's required.
 
+## Using the Home Assistant mobile app
+
+The companion app stores **one fixed server URL**, so the mode matters:
+
+- ⚠️ **Quick mode:** the `…trycloudflare.com` URL **changes on every restart**, so it
+  is **not practical** for the app — you'd have to re-enter it each time. Quick mode
+  is best for a browser on the spot, not the app.
+- ✅ **Named mode:** the custom domain is permanent — perfect for the app. Enter it
+  **once** and it keeps working:
+  1. Install the **Home Assistant** app and tap **Enter address manually**.
+  2. Type your named URL, e.g. `https://home.yourdomain.com`, and sign in.
+
+> Prefer not to buy a domain? The **Private Mesh (Tailscale)** add-on also works
+> great with the app (see its docs) and is free.
+
 ## Options
 
 | Option | Default | Meaning |

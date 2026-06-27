@@ -30,6 +30,21 @@ Done — private remote access, nothing touched in `configuration.yaml`.
 > machine → **Disable key expiry**. Otherwise Tailscale logs the node out after
 > ~180 days and a client site silently drops off the network.
 
+## Using the Home Assistant mobile app
+
+Tailscale gives a **stable address that never changes**, so it works perfectly
+with the companion app — from anywhere, free, no public exposure:
+
+1. Install the **Tailscale** app on the phone and sign in (same account).
+2. Install the **Home Assistant** app → **Enter address manually** → use:
+   `http://homeassistant:8123` (or the node's `http://100.x.y.z:8123` Tailscale IP).
+3. As long as Tailscale is connected on the phone, the HA app works anywhere —
+   including push notifications.
+
+> The phone must have the Tailscale app installed and connected. If you'd rather
+> the client open the app **without** installing Tailscale, use the **Remote URL**
+> add-on in *named mode* (a permanent public URL) instead.
+
 ## Fleet setup — auth key (for many client sites)
 
 If you deploy to lots of sites, an auth key skips the click-the-link step:

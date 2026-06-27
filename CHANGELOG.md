@@ -10,6 +10,9 @@
 - **`cloudflared` pinned** to a fixed release (`2026.6.1`) for reproducible builds
   (bump the `CLOUDFLARED_VERSION` build arg to upgrade).
 - **README:** added a one-click "My Home Assistant" badge to add the repository.
+- **Docs:** added a "Using the Home Assistant mobile app" section to both add-ons
+  (named mode / Tailscale give a stable URL for the app; quick mode's URL changes
+  per restart and isn't suited to the app).
 
 ## Reliability + CI
 
