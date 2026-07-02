@@ -22,16 +22,18 @@ is perfect for testing and casual use.
 
 ## Permanent custom domain (named mode)
 
-Use this when the client wants a stable address like `https://home.theirdomain.com`.
+Use this when the client wants a stable address like `https://greenmeads.ak-sys.com`.
 
 1. In the [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com/)
    go to **Networks → Tunnels → Create a tunnel** (Cloudflared).
 2. Give it a name, then copy the **tunnel token** it shows you.
-3. Under **Public Hostnames**, add a hostname (e.g. `home.theirdomain.com`) and
+3. Under **Public Hostnames**, add a hostname (e.g. `greenmeads.ak-sys.com`) and
    set the service to `http://homeassistant:8123`.
 4. In this add-on's **Configuration**:
    - set `mode` to `named`
    - paste the token into `tunnel_token`
+   - set `public_hostname` to the address users will open, e.g.
+     `greenmeads.ak-sys.com`
 5. **Restart** the add-on.
 
 A free Cloudflare account + a domain on Cloudflare (≈ a few dollars/year, or a
@@ -47,7 +49,7 @@ The companion app stores **one fixed server URL**, so the mode matters:
 - ✅ **Named mode:** the custom domain is permanent — perfect for the app. Enter it
   **once** and it keeps working:
   1. Install the **Home Assistant** app and tap **Enter address manually**.
-  2. Type your named URL, e.g. `https://home.yourdomain.com`, and sign in.
+  2. Type your named URL, e.g. `https://greenmeads.ak-sys.com`, and sign in.
 
 > Prefer not to buy a domain? The **Private Mesh (Tailscale)** add-on also works
 > great with the app (see its docs) and is free.
@@ -58,6 +60,7 @@ The companion app stores **one fixed server URL**, so the mode matters:
 |--------|---------|---------|
 | `mode` | `quick` | `quick` = free random URL, `named` = permanent token-based tunnel |
 | `tunnel_token` | _(empty)_ | Cloudflare tunnel token (named mode only) |
+| `public_hostname` | _(empty)_ | Optional named-mode address shown in logs and notifications, e.g. `greenmeads.ak-sys.com` |
 | `ha_host` | `homeassistant` | Internal hostname of HA core (leave as-is) |
 | `ha_port` | `8123` | HA frontend port (leave as-is unless you changed it) |
 

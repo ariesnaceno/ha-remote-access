@@ -10,6 +10,12 @@ configuration:
     description: >-
       Only needed for "named" mode. Paste the token from Cloudflare Zero Trust →
       Networks → Tunnels. Leave empty for "quick" mode.
+  public_hostname:
+    name: Public hostname
+    description: >-
+      Optional but recommended for "named" mode. Enter the exact address users
+      will open, for example greenmeads.ak-sys.com. The add-on will show it in
+      the log and Home Assistant notifications.
   ha_host:
     name: Home Assistant host
     description: Internal hostname of Home Assistant. Leave as "homeassistant".

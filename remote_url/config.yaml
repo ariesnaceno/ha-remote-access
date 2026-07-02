@@ -1,6 +1,6 @@
 name: "Remote URL (Cloudflare Tunnel)"
 description: "Gives Home Assistant a secure public https:// link via Cloudflare Tunnel — no port forwarding, no router changes."
-version: "1.2.1"
+version: "1.3.0"
 slug: "remote_url"
 init: false
 startup: "services"
@@ -19,10 +19,12 @@ arch:
 options:
   mode: "quick"
   tunnel_token: ""
+  public_hostname: ""
   ha_host: "homeassistant"
   ha_port: 8123
 schema:
   mode: "list(quick|named)"
   tunnel_token: "str?"
+  public_hostname: "str?"
   ha_host: "str"
   ha_port: "port"

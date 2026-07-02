@@ -6,7 +6,29 @@ MODE="$(bashio::config 'mode')"
 HA_HOST="$(bashio::config 'ha_host')"
 HA_PORT="$(bashio::config 'ha_port')"
 TUNNEL_TOKEN="$(bashio::config 'tunnel_token')"
+PUBLIC_HOSTNAME="$(bashio::config 'public_hostname')"
 TARGET="http://${HA_HOST}:${HA_PORT}"
+
+if [ -z "${HA_HOST}" ]; then
+  bashio::exit.nok "ha_host cannot be empty."
+fi
+
+case "${HA_HOST}" in
+  *[!A-Za-z0-9.-]*)
+    bashio::exit.nok "ha_host may only contain letters, numbers, dots, and hyphens."
+    ;;
+esac
+
+if [ -n "${PUBLIC_HOSTNAME}" ]; then
+  PUBLIC_HOSTNAME="${PUBLIC_HOSTNAME#https://}"
+  PUBLIC_HOSTNAME="${PUBLIC_HOSTNAME#http://}"
+  PUBLIC_HOSTNAME="${PUBLIC_HOSTNAME%%/*}"
+  case "${PUBLIC_HOSTNAME}" in
+    *[!A-Za-z0-9.-]*|.*|*.)
+      bashio::exit.nok "public_hostname must be a hostname like greenmeads.ak-sys.com, without paths or spaces."
+      ;;
+  esac
+fi
 
 # Bind cloudflared's metrics server so the add-on Watchdog can health-check it
 # (tcp://[HOST]:[PORT:36500] in config.yaml). If the tunnel hangs, the Supervisor
@@ -16,11 +38,14 @@ METRICS="0.0.0.0:36500"
 # Post a message to Home Assistant's notifications (best-effort; never fatal).
 notify_ha() {
   local title="$1" message="$2"
+  local escaped_title escaped_message
   [ -z "${SUPERVISOR_TOKEN:-}" ] && return 0
+  escaped_title="$(printf '%s' "${title}" | sed 's/\\/\\\\/g; s/"/\\"/g')"
+  escaped_message="$(printf '%s' "${message}" | sed 's/\\/\\\\/g; s/"/\\"/g')"
   curl -fsS -m 10 -X POST \
     -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" \
     -H "Content-Type: application/json" \
-    -d "{\"notification_id\":\"remote_url_link\",\"title\":\"${title}\",\"message\":\"${message}\"}" \
+    -d "{\"notification_id\":\"remote_url_link\",\"title\":\"${escaped_title}\",\"message\":\"${escaped_message}\"}" \
     "http://supervisor/core/api/services/persistent_notification/create" >/dev/null 2>&1 \
     && bashio::log.info "Posted the URL to Home Assistant > Notifications." \
     || bashio::log.warning "Could not post the HA notification (remote access still works)."
@@ -31,7 +56,12 @@ if [ "${MODE}" = "named" ]; then
     bashio::exit.nok "mode=named but tunnel_token is empty. Paste the token from Cloudflare Zero Trust > Networks > Tunnels, or switch mode to 'quick'."
   fi
   bashio::log.info "Starting NAMED Cloudflare Tunnel -> ${TARGET}"
-  bashio::log.info "Your stable URL is the public hostname you mapped to this tunnel in the Cloudflare dashboard."
+  if [ -n "${PUBLIC_HOSTNAME}" ]; then
+    bashio::log.info "Public URL: https://${PUBLIC_HOSTNAME}"
+    notify_ha "Remote access is ready" "Open Home Assistant from anywhere: https://${PUBLIC_HOSTNAME}"
+  else
+    bashio::log.info "Your stable URL is the public hostname you mapped to this tunnel in the Cloudflare dashboard."
+  fi
   exec cloudflared --no-autoupdate --metrics "${METRICS}" tunnel run --token "${TUNNEL_TOKEN}"
 fi
 

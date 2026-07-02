@@ -1,5 +1,15 @@
 # Changelog
 
+## Remote URL 1.3.0 — friendlier named-mode setup
+
+- Added an optional `public_hostname` configuration field for named Cloudflare
+  tunnels. Enter an address like `greenmeads.ak-sys.com` and the add-on now logs
+  and posts the exact public URL to Home Assistant notifications.
+- Added input validation for Remote URL hostnames and Private Mesh device names
+  so configuration mistakes fail with clear messages.
+- Hardened notification JSON escaping and Tailscale startup argument handling.
+- CI now checks shell syntax before running the Home Assistant add-on linter.
+
 ## Polish — icons, friendlier config, URL notification
 
 - **Icons & logos** for both add-ons (no more generic puzzle-piece in the store).

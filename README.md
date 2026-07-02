@@ -51,7 +51,8 @@ repository automatically:
 
 - **Want the client to reach their home from their phone, no apps to install?**
   → **Remote URL**. In quick mode it's literally: install, start, copy the URL
-  from the log. Done. ([details](remote_url/DOCS.md))
+  from the notification. In named mode, enter a friendly address such as
+  `greenmeads.ak-sys.com` and the add-on shows that exact URL. ([details](remote_url/DOCS.md))
 
 - **Want secure private access for yourself to manage/troubleshoot a site, with
   zero public exposure?** → **Private Mesh**. ([details](private_mesh/DOCS.md))
